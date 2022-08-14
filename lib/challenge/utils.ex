@@ -1,5 +1,7 @@
 defmodule Challenge.Utils do
-  @moduledoc false
+  @moduledoc """
+    This Module has utility functions for Wallet APIs and Internal functions.
+  """
 
   @spec handle_common_errors(tuple()) :: map()
   def handle_common_errors({:error, :wrong_type}), do: %{status: "RS_ERROR_WRONG_TYPES"}

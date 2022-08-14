@@ -1,5 +1,7 @@
 defmodule Challenge.Models.Win do
-  @moduledoc false
+  @moduledoc """
+    This module validates win APIs parameters.
+  """
 
   alias Challenge.Validation
 

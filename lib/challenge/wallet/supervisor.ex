@@ -1,5 +1,7 @@
 defmodule Challenge.Wallet.Supervisor do
-  @moduledoc false
+  @moduledoc """
+    This supervisor is root server for wallet APIs.
+  """
   use DynamicSupervisor
 
   alias Challenge.Models.User

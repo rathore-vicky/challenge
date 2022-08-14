@@ -1,5 +1,7 @@
 defmodule Challenge.Models.User do
-  @moduledoc false
+  @moduledoc """
+    This Module validates create user APIs parameters.
+  """
 
   @enforce_keys [
     :name

@@ -1,5 +1,7 @@
 defmodule Challenge.Wallet.Worker do
-  @moduledoc false
+  @moduledoc """
+    This GenServer implements wallet APIs and store data user-wise.
+  """
   use GenServer
 
   alias Challenge.Models.Bet

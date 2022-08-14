@@ -1,5 +1,7 @@
 defmodule Challenge.Application do
-  @moduledoc false
+  @moduledoc """
+    Application for Challenge.
+  """
   use Application
 
   def start(_type, _args) do

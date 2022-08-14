@@ -1,5 +1,7 @@
 defmodule Challenge.Models.Bet do
-  @moduledoc false
+  @moduledoc """
+    This Module validates bet APIs parameters.
+  """
 
   alias Challenge.Validation
 

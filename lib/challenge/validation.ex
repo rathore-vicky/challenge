@@ -1,5 +1,7 @@
 defmodule Challenge.Validation do
-  @moduledoc false
+  @moduledoc """
+    This module validates Wallet APIs parameters.
+  """
 
   alias Challenge.Models.{Bet, User, Win}
 
