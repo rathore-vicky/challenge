@@ -1,6 +1,5 @@
 defmodule ChallengeTest do
   use ExUnit.Case
-  doctest Challenge
 
   alias Challenge
   alias Test.Support.ChallengeHelper
