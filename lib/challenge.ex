@@ -2,24 +2,21 @@ defmodule Challenge do
   @moduledoc """
   Documentation for `Challenge`.
   """
-  use Application
 
-  alias Challenge.Supervisor
-  alias Challenge.Request.Manager, as: RequestManager
-  alias Challenge.Request.Server, as: RequestServer
+  alias Challenge.Validation
+  alias Challenge.Models.{Bet, Win}
+  alias Challenge.Wallet.Supervisor, as: WalletSupervisor
+
+  import Challenge.Utils, only: [handle_common_errors: 1]
 
   @doc """
   Start a linked and isolated supervision tree and returns the root server that
   will handle the requests.
   """
   @spec start :: GenServer.server()
-  def start() do
-    {:ok, pid} = RequestManager.start_child()
+  def start do
+    {:ok, pid} = WalletSupervisor.start_link()
     pid
-  end
-
-  def start(_type, _args) do
-    Supervisor.start_link()
   end
 
   @doc """
@@ -28,9 +25,7 @@ defmodule Challenge do
   It ignores any entry that is NOT a non-empty binary or if the user already exists.
   """
   @spec create_users(server :: GenServer.server(), users :: [String.t()]) :: :ok
-  def create_users(server, users) do
-    RequestServer.create_users(server, users)
-  end
+  defdelegate create_users(server, users), to: WalletSupervisor
 
   @doc """
   The same behavior from `POST /transaction/bet` docs.
@@ -40,7 +35,13 @@ defmodule Challenge do
   """
   @spec bet(server :: GenServer.server(), body :: map) :: map
   def bet(server, body) do
-    RequestServer.bet(server, body)
+    with {:ok, %Bet{} = bet} <- Validation.validate_bet(body),
+         {:ok, response} <- WalletSupervisor.bet(server, bet) do
+      response
+    else
+      error ->
+        handle_common_errors(error)
+    end
   end
 
   @doc """
@@ -51,6 +52,12 @@ defmodule Challenge do
   """
   @spec win(server :: GenServer.server(), body :: map) :: map
   def win(server, body) do
-    RequestServer.win(server, body)
+    with {:ok, %Win{} = win} <- Validation.validate_win(body),
+         {:ok, response} <- WalletSupervisor.win(server, win) do
+      response
+    else
+      error ->
+        handle_common_errors(error)
+    end
   end
 end
